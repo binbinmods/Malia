@@ -1,0 +1,15 @@
+{
+    "BaseSkin": true,
+    "PerkLevel": 0,
+    "SkinGO": "skinmalia",
+    "SkinID": "snakebase",
+    "SkinName": "Default",
+    "SkinOrder": 0,
+    "SkinSubclass": "snake",
+    "Sku": "",
+    "SpritePortrait": "maliaPortrait",
+    "SpritePortraitGrande": "maliaPortraitGrande",
+    "SpriteSilueta": "maliaSilueta",
+    "SpriteSiluetaGrande": "maliaSiluetaGrande",
+    "SteamStat": ""
+}

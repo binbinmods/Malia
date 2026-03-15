@@ -1,0 +1,33 @@
+[config]
+schemaVersion = "0.1.0"
+
+[package]
+namespace = "Binbin"
+name = "Malia_The_Snake"
+versionNumber = "0.1.0"
+description = "Hero Mod for Malia, the Snake. A Warrior that can sing for the Party if need arises"
+websiteUrl = "https://github.com/binbinmods/Malia"
+containsNsfwContent = false
+
+[package.dependencies]
+meds-Obeliskial_Essentials = "1.5.1"
+meds-Obeliskial_Content = "1.5.6"
+
+
+[build]
+icon = "./icon.png"
+readme = "./README.md"
+outdir = "./build"
+
+[[build.copy]]
+source = "./Malia"
+target = ""
+
+
+[publish]
+repository = "https://thunderstore.io"
+communities = [ "across-the-obelisk", ]
+[publish.categories]
+across-the-obelisk = [ "mods","hero"]
+
+

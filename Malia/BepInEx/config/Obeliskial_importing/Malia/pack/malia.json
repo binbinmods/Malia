@@ -1,0 +1,15 @@
+{
+    "Card0": "snakepoisonguard",
+    "Card1": "defend",
+    "Card2": "intercept",
+    "Card3": "deflect",
+    "Card4": "songofcelerity",
+    "Card5": "",
+    "CardSpecial0": "",
+    "CardSpecial1": "",
+    "PackClass": "warrior",
+    "PackID": "malia",
+    "PackName": "Malia",
+    "PerkList": [],
+    "RequiredClass": "snake"
+}
