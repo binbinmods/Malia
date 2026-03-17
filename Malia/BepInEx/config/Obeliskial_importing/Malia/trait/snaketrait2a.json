@@ -1,5 +1,5 @@
 {
-    "Activation": "BeginTurn",
+    "Activation": "BeginTurnAboutToDealCards",
     "AuraCurseBonus1": "",
     "AuraCurseBonus2": "",
     "AuraCurseBonus3": "",
@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "While you have above 10 Poison, Gain Stanza 1 on Turn Start.",
+    "Description": "At the start of your turn, if you have more than 10 Poison, gain Stanza 1.",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

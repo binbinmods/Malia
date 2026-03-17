@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "Poison no longer deals Damage to you, instead it reduces Block gained by 1 and increases Max HP by 2. Each Block Charge gained inflicts 1 Poison to yourself.",
+    "Description": "Poison no longer deals Damage to you, instead it reduces Block gained by 1 and increases Max HP by 2 per charge. When you gain Block, suffer that much Poison -this is not affected by modifiers-",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

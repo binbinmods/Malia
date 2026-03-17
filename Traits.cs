@@ -75,19 +75,18 @@ namespace Malia
             {
                 // trait0:
                 LogDebug($"Handling Trait {traitId}: {traitName}");
-                _character.SetAuraTrait(_character, "evade", 1);
             }
 
 
             else if (_trait == trait2a)
             {
                 // trait2a
-                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Defense))// && MatchManager.Instance.energyJustWastedByHero > 0)
+                // At the start of your turn, if you have more than 10 Poison, gain Stanza 1.
+                if (_character.HaveTrait(_trait) && _character.GetAuraCharges("poison") > 10)
                 {
                     LogDebug($"Handling Trait {traitId}: {traitName}");
-                    // _character?.ModifyEnergy(1);
-                    // DrawCards(1);
-                    IncrementTraitActivations(traitId);
+                    _character.SetAuraTrait(_character, "stanzai", 1);
+                    _character?.HeroItem?.ScrollCombatText(traitName, Enums.CombatScrollEffectType.Trait);
                 }
             }
 
@@ -96,21 +95,57 @@ namespace Malia
             else if (_trait == trait2b)
             {
                 // trait2b:
+                // At the start of your turn, every 4 Stacks of Reinforce on you gain 1 Infuse and restore 5% of your Max Health.
                 LogDebug($"Handling Trait {traitId}: {traitName}");
-
+                int nRepeats = _character.GetAuraCharges("reinfoce") / 4;
+                if (nRepeats <= 0)
+                {
+                    return;
+                }
+                _character.SetAuraTrait(_character, "infuse", nRepeats);
+                _character.IndirectHeal(Mathf.RoundToInt(_character.GetMaxHP() * 0.05f * nRepeats));
+                _character?.HeroItem?.ScrollCombatText(traitName, Enums.CombatScrollEffectType.Trait);
             }
 
             else if (_trait == trait4a)
             {
                 // trait 4a;
+                // When you play a Defense, advance your Stanza. Advancing past Stanza 3 grants 4 Powerful, 2 Inspire and Stanza 1 to all Heroes but you suffer 2 Shackles (once per turn).
 
-                LogDebug($"Handling Trait {traitId}: {traitName}");
+                if (_castedCard.HasCardType(Enums.CardType.Defense) && CanIncrementTraitActivations(traitId))
+                {
+                    LogDebug($"Handling Trait {traitId}: {traitName}");
+                    ProgressStanza(_character);
+                    IncrementTraitActivations(traitId);
+
+                    if (_character.HasEffect("stanzai") || _character.HasEffect("stanzaii") || _character.HasEffect("stanzaiii"))
+                    {
+                        return;
+                    }
+                    ApplyAuraCurseToAll("powerful", 4, AppliesTo.Heroes, _character, true);
+                    ApplyAuraCurseToAll("inspire", 2, AppliesTo.Heroes, _character, true);
+                    ApplyAuraCurseToAll("stanzai", 1, AppliesTo.Heroes, _character, true);
+                    _character.SetAuraTrait(_character, "shackle", 2);
+                    _character?.HeroItem?.ScrollCombatText(traitName, Enums.CombatScrollEffectType.Trait);
+                }
             }
 
             else if (_trait == trait4b)
             {
                 // trait 4b:
                 LogDebug($"Handling Trait {traitId}: {traitName}");
+                // Immune to Slow. Chill no longer reduces your Speed. When you play a Defense with cost >=3, dispel Chill and Slow on all other heroes (once per turn).
+                if (_castedCard.HasCardType(Enums.CardType.Defense) && CanIncrementTraitActivations(traitId) && MatchManager.Instance.energyJustWastedByHero >= 3)
+                {
+                    for (int i = 0; i < teamHero.Length; i++)
+                    {
+                        if (IsLivingHero(teamHero[i]) && teamHero[i] != _character)
+                        {
+                            teamHero[i].HealAuraCurse(GetAuraCurseData("chill"));
+                            teamHero[i].HealAuraCurse(GetAuraCurseData("slow"));
+                        }
+                    }
+                }
             }
 
         }
@@ -128,6 +163,10 @@ namespace Malia
             string traitOfInterest;
             switch (_acId)
             {
+                // trait0:
+                // Poison no longer deals Damage to you, instead it reduces Block gained by 1 and increases Max HP by 2 per charge. 
+                // When you gain Block, suffer that much Poison -this is not affected by modifiers-
+
                 // trait2a:
 
                 // trait2b:
@@ -135,17 +174,24 @@ namespace Malia
                 // trait 4a;
 
                 // trait 4b:
+                // Immune to Slow. Chill no longer reduces your Speed. When you play a Defense with cost >=3, dispel Chill and Slow on all other heroes (once per turn).
 
-                case "evasion":
-                    traitOfInterest = trait2a;
+                case "poison":
+                    traitOfInterest = trait0;
                     if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.ThisHero))
                     {
+                        __result.DamageWhenConsumedPerCharge = 0;
+                        __result.CharacterStatModified = Enums.CharacterStat.Hp;
+                        __result.CharacterStatModifiedValuePerStack = 2;
                     }
                     break;
-                case "stealth":
-                    traitOfInterest = trait2b;
-                    if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.Heroes))
+                case "chill":
+                    traitOfInterest = trait4b;
+                    if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.ThisHero))
                     {
+                        __result.CharacterStatModified = Enums.CharacterStat.None;
+                        __result.CharacterStatModifiedValuePerStack = 0;
+                        __result.CharacterStatChargesMultiplierNeededForOne = 0;
                     }
                     break;
             }
@@ -210,41 +256,29 @@ namespace Malia
             isDamagePreviewActive = false;
         }
 
-        // [HarmonyPostfix]
-        // [HarmonyPatch(typeof(Character), nameof(Character.SetEvent))]
-        // public static void SetEventPostfix(
-        //     Enums.EventActivation theEvent,
-        //     Character target = null,
-        //     int auxInt = 0,
-        //     string auxString = "")
-        // {
-        //     if (theEvent == Enums.EventActivation.BeginTurnCardsDealt && AtOManager.Instance.TeamHaveTrait(trait2b))
-        //     {
-        //         string cardToPlay = "tacticianexpectedprophecy";
-        //         PlayCardForFree(cardToPlay);
-        //     }
+        [HarmonyPostfix]
+        [HarmonyPatch(typeof(Character), nameof(Character.SetEvent))]
+        public static void SetEventPostfix(Character __instance, Enums.EventActivation theEvent, Character target = null, int auxInt = 0, string auxString = "", Character caster = null)
+        {
+            // Poison no longer deals Damage to you, instead it reduces Block gained by 1 and increases Max HP by 2 per charge. When you gain Block, suffer that much Poison -this is not affected by modifiers-
+            if (theEvent == Enums.EventActivation.AuraCurseSet && IsLivingHero(target) && target.HaveTrait(trait0) && auxString == "block")
+            {
+                target.SetAura(target, GetAuraCurseData("poison"), auxInt, useCharacterMods: false);
+            }
+        }
 
-        // }
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Character), nameof(Character.SetAura))]
+        public static void SetAuraPrefix(ref Character __instance, Character theCaster, AuraCurseData _acData, ref int charges, bool fromTrait = false, Enums.CardClass CC = Enums.CardClass.None, bool useCharacterMods = true, bool canBePreventable = true)
+        {
+            if (IsLivingHero(__instance) && __instance.HaveTrait(trait0) && _acData.Id == "block")
+            {
+                charges -= __instance.GetAuraCharges("poison");
+                if (charges < 0)
+                    charges = 0;
+            }
+        }
 
-        // [HarmonyPostfix]
-        // [HarmonyPatch(typeof(Character), nameof(Character.GetTraitAuraCurseModifiers))]
-        // public static void GetTraitAuraCurseModifiersPostfix(ref Character __instance, ref Dictionary<string, int> __result)
-        // {
-        //     // trait2a:
-        //     // Block charges applied +1 for every 3 Dark on you.
-        //     // trait4b Shield of Nazarick increases Block charges for every 2 Dark on you.
-
-        //     string traitOfInterest = trait2a;
-        //     if (IsLivingHero(__instance) && __instance.HaveTrait(traitOfInterest))
-        //     {
-        //         LogDebug($"Handling Trait {traitOfInterest}");
-        //         int nDark = __instance.EffectCharges("dark");
-        //         int bonusBlockCharges = nDark / (__instance.HaveTrait(trait4b) ? 2 : 3);
-
-        //         if (bonusBlockCharges != 0) { __result["block"] = bonusBlockCharges; }
-        //     }
-
-        // }
 
 
 

@@ -1,5 +1,5 @@
 {
-    "Activation": "BeginTurn",
+    "Activation": "BeginTurnAboutToDealCards",
     "AuraCurseBonus1": "",
     "AuraCurseBonus2": "",
     "AuraCurseBonus3": "",
@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "Every 4 Stacks of Reinforce now grant 1 Infuse and heals you for 5% of your Health on Turn Start.",
+    "Description": "At the start of your turn, for every 4 Stacks of Reinforce on you, gain 1 Infuse and heal 5% of your Max Health.",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,
@@ -36,7 +36,7 @@
     "ResistModifiedValue2": 0,
     "ResistModifiedValue3": 0,
     "TimesPerRound": 0,
-    "TimesPerTurn": 2,
+    "TimesPerTurn": 0,
     "TraitCard": "",
     "TraitCardForAllHeroes": "",
     "TraitName": "Hardend Scales"

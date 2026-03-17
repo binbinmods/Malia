@@ -28,6 +28,6 @@ target = ""
 repository = "https://thunderstore.io"
 communities = [ "across-the-obelisk", ]
 [publish.categories]
-across-the-obelisk = [ "mods","hero"]
+across-the-obelisk = [ "mods"]
 
 
