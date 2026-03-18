@@ -145,6 +145,7 @@ namespace Malia
                             teamHero[i].HealAuraCurse(GetAuraCurseData("slow"));
                         }
                     }
+                    IncrementTraitActivations(traitId);
                 }
             }
 
@@ -170,6 +171,7 @@ namespace Malia
                 // trait2a:
 
                 // trait2b:
+                // Poison increases healing received by 
 
                 // trait 4a;
 
@@ -184,6 +186,12 @@ namespace Malia
                         __result.DamageWhenConsumedPerCharge = 0;
                         __result.CharacterStatModified = Enums.CharacterStat.Hp;
                         __result.CharacterStatModifiedValuePerStack = 2 * GetRustMultiplier(characterOfInterest, _acId);
+                    }
+
+                    traitOfInterest = trait2b;
+                    if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.ThisHero))
+                    {
+                        __result.HealReceivedPercentPerStack = 1;
                     }
                     break;
                 case "chill":

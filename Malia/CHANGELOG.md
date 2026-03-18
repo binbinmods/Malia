@@ -1,3 +1,9 @@
+# 0.1.4
+
+Updated Hardened Scales to increase Healing Received via Poison
+
+Freedom now has a limit of once per turn.
+
 # 0.1.3
 
 Updated energy cost on Poison Guard
