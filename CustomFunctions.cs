@@ -1695,6 +1695,24 @@ namespace Malia
             }
         }
 
+        public static float GetRustMultiplier(Character characterOfInterest, string _acId)
+        {
+            bool hasRust = false;
+            if (characterOfInterest != null)
+            {
+                hasRust = characterOfInterest.HasEffect("rust");
+            }
+
+            float rustMultiplier = hasRust ? 1.5f : 1.0f;
+            if (TeamHasPerk("mainperkrust0b") && hasRust && (_acId == "crack" || _acId == "poison" || _acId == "slow"))
+            {
+                // rust0b: Rust on enemies instead increases the effect of Crack, Poison and Slow by 20% per charge
+                int nRust = characterOfInterest.GetAuraCharges("rust");
+                rustMultiplier = 1.0f + 0.2f * nRust;
+            }
+            return rustMultiplier;
+        }
+
     }
 }
 

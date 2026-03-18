@@ -1,5 +1,5 @@
 {
-    "Activation": "AuraCurseSet",
+    "Activation": "CastCard",
     "AuraCurseBonus1": "",
     "AuraCurseBonus2": "",
     "AuraCurseBonus3": "",
@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "When you play a Defense, advance your Stanza. Advancing past Stanza 3 grants 4 Powerful, 2 Inspire and Stanza 1 to all Heroes but you suffer 2 Shackles (once per turn).",
+    "Description": "When you play a Defense, advance your Stanza. Advancing past Stanza 3 grants 4 Powerful, 2 Inspire, and Stanza I to all Heroes but you suffer 2 Shackles (once per turn).",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

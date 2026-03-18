@@ -74,7 +74,6 @@ namespace Malia
             if (_trait == trait0)
             {
                 // trait0:
-                LogDebug($"Handling Trait {traitId}: {traitName}");
             }
 
 
@@ -97,7 +96,7 @@ namespace Malia
                 // trait2b:
                 // At the start of your turn, every 4 Stacks of Reinforce on you gain 1 Infuse and restore 5% of your Max Health.
                 LogDebug($"Handling Trait {traitId}: {traitName}");
-                int nRepeats = _character.GetAuraCharges("reinfoce") / 4;
+                int nRepeats = _character.GetAuraCharges("reinforce") / 4;
                 if (nRepeats <= 0)
                 {
                     return;
@@ -133,10 +132,11 @@ namespace Malia
             else if (_trait == trait4b)
             {
                 // trait 4b:
-                LogDebug($"Handling Trait {traitId}: {traitName}");
                 // Immune to Slow. Chill no longer reduces your Speed. When you play a Defense with cost >=3, dispel Chill and Slow on all other heroes (once per turn).
                 if (_castedCard.HasCardType(Enums.CardType.Defense) && CanIncrementTraitActivations(traitId) && MatchManager.Instance.energyJustWastedByHero >= 3)
                 {
+                    LogDebug($"Handling Trait {traitId}: {traitName}");
+
                     for (int i = 0; i < teamHero.Length; i++)
                     {
                         if (IsLivingHero(teamHero[i]) && teamHero[i] != _character)
@@ -182,7 +182,7 @@ namespace Malia
                     {
                         __result.DamageWhenConsumedPerCharge = 0;
                         __result.CharacterStatModified = Enums.CharacterStat.Hp;
-                        __result.CharacterStatModifiedValuePerStack = 2;
+                        __result.CharacterStatModifiedValuePerStack = 2 * GetRustMultiplier(characterOfInterest, _acId);
                     }
                     break;
                 case "chill":
@@ -191,7 +191,8 @@ namespace Malia
                     {
                         __result.CharacterStatModified = Enums.CharacterStat.None;
                         __result.CharacterStatModifiedValuePerStack = 0;
-                        __result.CharacterStatChargesMultiplierNeededForOne = 0;
+                        __result.CharacterStatChargesMultiplierNeededForOne = 1;
+                        __result.ChargesAuxNeedForOne2 = 0;
                     }
                     break;
             }
@@ -263,7 +264,9 @@ namespace Malia
             // Poison no longer deals Damage to you, instead it reduces Block gained by 1 and increases Max HP by 2 per charge. When you gain Block, suffer that much Poison -this is not affected by modifiers-
             if (theEvent == Enums.EventActivation.AuraCurseSet && IsLivingHero(target) && target.HaveTrait(trait0) && auxString == "block")
             {
-                target.SetAura(target, GetAuraCurseData("poison"), auxInt, useCharacterMods: false);
+                LogDebug($"Handling Living Poison");
+
+                target?.SetAura(target, GetAuraCurseData("poison"), auxInt, useCharacterMods: false);
             }
         }
 

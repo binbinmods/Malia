@@ -28,21 +28,25 @@ namespace Malia
     {
         public static void ProgressStanza(Character character)
         {
+            if (character == null || !character.Alive)
+            {
+                return;
+            }
             if (character.HasEffect("stanzaiii"))
             {
                 character.HealAuraCurse(GetAuraCurseData("stanzaiii"));
             }
             else if (character.HasEffect("stanzaii"))
             {
-                character.SetAura(null, GetAuraCurseData("stanzaiii"), 1);
+                character.SetAura(character, GetAuraCurseData("stanzaiii"), 1);
             }
             else if (character.HasEffect("stanzai"))
             {
-                character.SetAura(null, GetAuraCurseData("stanzaii"), 1);
+                character.SetAura(character, GetAuraCurseData("stanzaii"), 1);
             }
             else
             {
-                character.SetAura(null, GetAuraCurseData("stanzai"), 1);
+                character.SetAura(character, GetAuraCurseData("stanzai"), 1);
             }
 
         }

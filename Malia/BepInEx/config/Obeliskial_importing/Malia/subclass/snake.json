@@ -27,7 +27,7 @@
     "FluffOffsetY": 3.40000009536743,
     "HeroClass": "warrior",
     "HeroClassSecondary": "scout",
-    "HitSound": "",
+    "HitSound": "siren",
     "HP": 82,
     "ID": "snake",
     "Item": "snakepoisonaegis",
