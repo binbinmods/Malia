@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "Poison increases Max HP by 2 and no longer deals Damage to you. Whenever you would gain Block charges, instead of gaining Block, gain 50% of those charges as Poison.",
+    "Description": "Poison on you cannot be dispelled unless specified, increases Max but not current HP by 2, and no longer deals Damage. Whenever you would gain Block charges, instead of gaining Block, gain 50% of those charges as Poison.",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

@@ -1,3 +1,11 @@
+# 0.1.3
+
+Updated energy cost on Poison Guard
+
+Living Poison now makes poison undispellable
+
+Fixed Living Poison to work with bonus charges properly
+
 # 0.1.2
 
 Changed the way Living Poison works to be more like Bree's Queen of Thorns

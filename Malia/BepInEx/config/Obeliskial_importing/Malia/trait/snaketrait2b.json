@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "At the start of your turn, for every 4 Stacks of Reinforce on you, gain 1 Infuse and heal 5% of your Max Health.",
+    "Description": "At the start of your turn, for every 3 Stacks of Reinforce on you, gain 1 Infuse and heal 5% of your Max Health.",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,

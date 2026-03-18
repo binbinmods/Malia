@@ -96,7 +96,7 @@ namespace Malia
                 // trait2b:
                 // At the start of your turn, every 4 Stacks of Reinforce on you gain 1 Infuse and restore 5% of your Max Health.
                 LogDebug($"Handling Trait {traitId}: {traitName}");
-                int nRepeats = _character.GetAuraCharges("reinforce") / 4;
+                int nRepeats = _character.GetAuraCharges("reinforce") / 3;
                 if (nRepeats <= 0)
                 {
                     return;
@@ -180,6 +180,7 @@ namespace Malia
                     traitOfInterest = trait0;
                     if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.ThisHero))
                     {
+                        __result.Removable = false;
                         __result.DamageWhenConsumedPerCharge = 0;
                         __result.CharacterStatModified = Enums.CharacterStat.Hp;
                         __result.CharacterStatModifiedValuePerStack = 2 * GetRustMultiplier(characterOfInterest, _acId);
@@ -280,10 +281,27 @@ namespace Malia
             //     if (charges < 0)
             //         charges = 0;
             // }
-            if (IsLivingHero(__instance) && __instance.HaveTrait(trait0) && _acData.Id == "block")
+            if (IsLivingHero(__instance) && __instance.HaveTrait(trait0) && _acData.Id.ToLower() == "block")
             {
+                AuraCurseData auraCurseData = AtOManager.Instance.GlobalAuraCurseModificationByTraitsAndItems("set", _acData.Id, theCaster, __instance);
+                if (auraCurseData == null)
+                {
+                    auraCurseData = Globals.Instance.GetAuraCurseData(_acData.Id);
+                }
+                if (auraCurseData == null)
+                {
+                    return;
+                }
+                if (!auraCurseData.IsAura && __instance.IsInvulnerable() && auraCurseData.Id.ToLower() != "doom")
+                {
+                    return;
+                }
+                if (theCaster != null && useCharacterMods)
+                {
+                    charges += theCaster.GetAuraCurseQuantityModification(auraCurseData.Id, CC);
+                }
                 _acData = Globals.Instance.GetAuraCurseData("poison");
-                charges = Functions.FuncRoundToInt((float)charges * 0.5f);
+                charges = Functions.FuncRoundToInt(charges * 0.5f);
             }
         }
 
