@@ -1,3 +1,7 @@
+# 0.1.2
+
+Changed the way Living Poison works to be more like Bree's Queen of Thorns
+
 # 0.1.1
 
 Fixed the right side level 3.

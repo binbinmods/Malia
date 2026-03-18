@@ -272,13 +272,18 @@ namespace Malia
 
         [HarmonyPrefix]
         [HarmonyPatch(typeof(Character), nameof(Character.SetAura))]
-        public static void SetAuraPrefix(ref Character __instance, Character theCaster, AuraCurseData _acData, ref int charges, bool fromTrait = false, Enums.CardClass CC = Enums.CardClass.None, bool useCharacterMods = true, bool canBePreventable = true)
+        public static void SetAuraPrefix(ref Character __instance, Character theCaster, ref AuraCurseData _acData, ref int charges, bool fromTrait = false, Enums.CardClass CC = Enums.CardClass.None, bool useCharacterMods = true, bool canBePreventable = true)
         {
+            // if (IsLivingHero(__instance) && __instance.HaveTrait(trait0) && _acData.Id == "block")
+            // {
+            //     charges -= __instance.GetAuraCharges("poison");
+            //     if (charges < 0)
+            //         charges = 0;
+            // }
             if (IsLivingHero(__instance) && __instance.HaveTrait(trait0) && _acData.Id == "block")
             {
-                charges -= __instance.GetAuraCharges("poison");
-                if (charges < 0)
-                    charges = 0;
+                _acData = Globals.Instance.GetAuraCurseData("poison");
+                charges = Functions.FuncRoundToInt((float)charges * 0.5f);
             }
         }
 

@@ -1,10 +1,10 @@
 [config]
-schemaVersion = "0.1.1"
+schemaVersion = "0.1.2"
 
 [package]
 namespace = "Binbin"
 name = "Malia_The_Snake"
-versionNumber = "0.1.1"
+versionNumber = "0.1.2"
 description = "Hero Mod for Malia, the Snake. A Warrior that can sing for the Party if need arises"
 websiteUrl = "https://github.com/binbinmods/Malia"
 containsNsfwContent = false

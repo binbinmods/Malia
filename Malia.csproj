@@ -6,7 +6,7 @@
 	<Product>Malia</Product>
     <AssemblyName>com.binbin.Malia</AssemblyName>
     <Description>Malia, The Snake</Description>
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
